@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:padding="0dp"
+    android:weightSum="1"
+    android:id="@+id/ll" >
+
+    <TableLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:background="#1F6F58"
+        android:padding="0dp">
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/imgLogo"
+                android:src="@drawable/top_logo"
+                android:paddingLeft="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/app_txt"
+                android:id="@+id/textView"
+                android:textColor="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:textSize="8pt"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:gravity="center"
+                android:textStyle="bold" />
+
+            <Button
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/btn_settings"
+                android:background="@drawable/menu"
+                android:padding="5dp"
+                android:onClick="onMenuBtnClick"
+                android:layout_margin="10dp" />
+
+        </TableRow>
+    </TableLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient"
+        android:layout_weight="0">
+
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Редактирование профиля"
+                    android:id="@+id/textView6"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:gravity="center_horizontal"
+                    android:textSize="28dp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/separator"
+                    android:layout_height="3dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Имя"
+                    android:id="@+id/textView5"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="20dp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:ems="10"
+                    android:id="@+id/nameTxt"
+                    android:layout_marginBottom="20dp"
+                    android:drawableLeft="@drawable/user"
+                    android:textSize="22dp"
+                    android:padding="3dp"
+                    android:imeOptions="actionDone" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Изменить"
+                    android:id="@+id/btnChangeName"
+                    android:background="#1F6F58"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:onClick="onSendName"
+                    android:layout_marginBottom="20dp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/separator"
+                    android:layout_height="3dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Автомобили:"
+                    android:id="@+id/textView9"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="18dp" />
+
+                <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lvMain"
+                    android:minHeight="100dp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Удалить"
+                    android:id="@+id/btnDelGn"
+                    android:background="#1F6F58"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:onClick="onDelGn"
+                    android:layout_marginBottom="20dp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/separator"
+                    android:layout_height="3dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Добавить гос.номер"
+                    android:id="@+id/textView8"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="20dp" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:ems="10"
+                    android:id="@+id/gnTxt"
+                    android:layout_marginBottom="20dp"
+                    android:drawableLeft="@drawable/gn"
+                    android:textSize="22dp"
+                    android:padding="3dp"
+                    android:imeOptions="actionDone" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Добавить"
+                    android:id="@+id/btnReg"
+                    android:background="#1F6F58"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:onClick="onAddGn"
+                    android:layout_marginBottom="20dp"/>
+
+
+            </LinearLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+
+
+
+
+
+</LinearLayout>

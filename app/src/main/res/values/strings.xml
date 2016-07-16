@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Подвинь машину</string>
+    <string name="app_txt">Подвинь машину,\nБрат</string>
+    <string name="app_txt_full">Подвинь машину, Брат</string>
+    <string name="dialog_about_title">О программе</string>
+    <string name="dialog_about_message">Подвинь машину v1.0\nПриложение позволяет отправить владельцу транспортного средства перегородившего Вам дорогу просьбу подвинуть машину.</string>
+    <string name="common_error_message">Ошибка данных</string>
+    <string name="err_act_code">Ошибка кода подтверждения</string>
+    <string name="title_activity_show_menu">МЕНЮ</string>
+</resources>

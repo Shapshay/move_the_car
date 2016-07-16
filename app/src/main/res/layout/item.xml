@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <CheckBox
+        android:id="@+id/cbBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#1F6F58"
+        android:layout_marginTop="10dp">
+    </CheckBox>
+    <LinearLayout
+        android:id="@+id/llMsg"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvDescr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Подвинь машину, брат"
+            android:textSize="20dp">
+        </TextView>
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:text="11111"
+            android:textSize="16dp">
+        </TextView>
+        <TextView
+            android:id="@+id/tvPush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="0dp">
+        </TextView>
+    </LinearLayout>
+    <!--<ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/warning"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp">
+    </ImageView>-->
+</LinearLayout>

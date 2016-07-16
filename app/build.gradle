@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 'Google Inc.:Google APIs:23'
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "com.skiv.akk.movethecar"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile files('libs/json-20090211.jar')
+    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile 'com.barryzhang:temptyview:0.0.1'
+    compile 'com.github.javiersantos:BottomDialogs:1.1'
+}
