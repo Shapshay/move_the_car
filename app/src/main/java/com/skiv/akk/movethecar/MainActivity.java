@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
                 .setContent("Текст рекламного объявления.")
                 .setIcon(R.drawable.ic_launcher)
                 .setCancelable(true)
-                .setNegativeText("Отмена")
+                .setNegativeText("Закрыть")
                 /*.onNegative(new BottomDialog.ButtonCallback() {
                     @Override
                     public void onClick(BottomDialog dialog) {
