@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -25,6 +27,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,11 +45,8 @@ public class MainActivity extends Activity {
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+
+    BottomDialog reklamaDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,24 +75,32 @@ public class MainActivity extends Activity {
         });
 
         // reklama
-        BottomDialog bottomDialog = new BottomDialog.Builder(this)
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor c = db.query("mc_table", null, null, null, null, null, null);
+        String u_id = "0";
+        if (c.moveToFirst()) {
+            int u_idColIndex = c.getColumnIndex("u_id");
+            u_id = c.getString(u_idColIndex);
+        }
+        new sendGn().execute(u_id);
+        /*reklamaDialog = new BottomDialog.Builder(this)
                 .setTitle("Рекламный заголовок!")
                 .setContent("Текст рекламного объявления.")
                 .setIcon(R.drawable.ic_launcher)
                 .setCancelable(true)
                 .setNegativeText("Закрыть")
-                /*.onNegative(new BottomDialog.ButtonCallback() {
+                *//*.onNegative(new BottomDialog.ButtonCallback() {
                     @Override
                     public void onClick(BottomDialog dialog) {
                         Log.d("BottomDialogs", "Do something!");
-                    })*/
+                    })*//*
                 .setPositiveText("Перейти")
                 .onPositive(new BottomDialog.ButtonCallback() {
                     @Override
                     public void onClick(BottomDialog dialog) {
                         Log.d("BottomDialogs", "Do something!");
                     }
-                }).show();
+                }).show();*/
 
 
 
@@ -241,4 +251,100 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(MainActivity.this, MenuActivity.class);
         startActivity(intent);
     }
+
+
+    // REKLAMA
+    /**
+     * Фоновый Async Task рекламы
+     **/
+    class checkReklama extends AsyncTask<String, String, Reklama> {
+
+
+        /**
+         * Проверка наличия объявления
+         **/
+        protected Reklama doInBackground(String[] args) {
+            String u_id = args[0];
+
+            // Заполняем параметры
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("u_id", u_id));
+            Log.d(LOG_TAG, "Start json");
+            // получаем JSON объект
+            String url_rek = "http://java.coap.kz/mc/reklama.php";
+            JSONObject send_json = jsonParser.makeHttpRequest(url_rek, "POST", params);
+            Log.d(LOG_TAG, "End json");
+            Log.d(LOG_TAG, send_json.toString());
+            Reklama reklama = new Reklama();
+            try {
+                int success = send_json.getInt(TAG_SUCCESS);
+                Log.d(LOG_TAG, "TAG_SUCCESS = " + success);
+                String message = send_json.getString(TAG_MESSAGE);
+                Log.d(LOG_TAG, "TAG_MESSAGE = " + message);
+                if (success == 1) {
+                    Log.d(LOG_TAG, "success == 1");
+                    String title = send_json.getString("title");
+                    String icon = send_json.getString("icon");
+                    String date = send_json.getString("date");
+                    int view = send_json.getInt("view");
+                    int id = send_json.getInt("id");
+                    reklama.id = id;
+                    reklama.date = date;
+                    reklama.title = title;
+                    reklama.msg = message;
+                    reklama.icon = icon;
+                    reklama.view = view;
+
+                } else {
+                    Log.d(LOG_TAG, "success == " + success);
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return reklama;
+        }
+
+        /**
+         * После оконачния скрываем прогресс диалог
+         **/
+        protected void onPostExecute(final Reklama reklama) {
+            if(reklama.view!=0) {
+                /*
+                URL newurl = null;
+                Bitmap mIcon_val = null;
+
+                try {
+                    newurl = new URL(reklama.icon);
+                    mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    mIcon_val = R.drawable.ic_launcher;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+
+                reklamaDialog = new BottomDialog.Builder(MainActivity.this)
+                        .setTitle(reklama.title)
+                        .setContent(reklama.msg)
+                        .setIcon(R.drawable.ic_launcher)
+                        .setCancelable(true)
+                        .setNegativeText("Закрыть")
+                        .setPositiveText("Перейти")
+                        .onPositive(new BottomDialog.ButtonCallback() {
+                            @Override
+                            public void onClick(BottomDialog dialog) {
+                                Log.d("BottomDialogs", "Do something!");
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(reklama.url));
+                                startActivity(browserIntent);
+                            }
+                        }).show();
+            }
+        }
+    }
+
+
 }
