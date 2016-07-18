@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
             int u_idColIndex = c.getColumnIndex("u_id");
             u_id = c.getString(u_idColIndex);
         }
-        new sendGn().execute(u_id);
+        new checkReklama().execute(u_id);
         /*reklamaDialog = new BottomDialog.Builder(this)
                 .setTitle("Рекламный заголовок!")
                 .setContent("Текст рекламного объявления.")
@@ -186,11 +186,15 @@ public class MainActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Отправка...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
+            try {
+                pDialog = new ProgressDialog(MainActivity.this);
+                pDialog.setMessage("Отправка...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
+            }catch (Exception e){
+
+            }
         }
 
         /**
@@ -337,12 +341,24 @@ public class MainActivity extends Activity {
                         .onPositive(new BottomDialog.ButtonCallback() {
                             @Override
                             public void onClick(BottomDialog dialog) {
-                                Log.d("BottomDialogs", "Do something!");
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(reklama.url));
-                                startActivity(browserIntent);
+                                Log.d(LOG_TAG, "reklama.url = "+reklama.url);
+                                onLinkBtn(reklama.url);
+                                /*Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                                browserIntent.setData(Uri.parse(reklama.url));
+                                if(browserIntent.resolveActivity(getPackageManager())!=null) {
+                                    startActivity(browserIntent);
+                                }*/
                             }
                         }).show();
             }
+        }
+    }
+
+    public void onLinkBtn(String url){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+        browserIntent.setData(Uri.parse(url));
+        if(browserIntent.resolveActivity(getPackageManager())!=null) {
+            startActivity(browserIntent);
         }
     }
 

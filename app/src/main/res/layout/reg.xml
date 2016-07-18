@@ -93,11 +93,14 @@
                 android:background="#ffffff"
                 android:ems="10"
                 android:id="@+id/nameTxt"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/phoneTxt"
                 android:layout_marginBottom="20dp"
                 android:drawableLeft="@drawable/user"
                 android:textSize="18dp"
                 android:padding="3dp"
-                android:imeOptions="actionNext"/>
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -116,11 +119,14 @@
                 android:background="#ffffff"
                 android:ems="10"
                 android:id="@+id/phoneTxt"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/gnTxt"
                 android:layout_marginBottom="20dp"
                 android:drawableLeft="@drawable/phone"
                 android:textSize="18dp"
                 android:padding="3dp"
-                android:imeOptions="actionNext" />
+                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -137,11 +143,14 @@
                 android:background="#ffffff"
                 android:ems="10"
                 android:id="@+id/gnTxt"
+                android:singleLine="true"
+                android:nextFocusDown="@+id/btnReg"
+                android:imeOptions="actionDone"
                 android:layout_marginBottom="20dp"
                 android:drawableLeft="@drawable/gn"
                 android:textSize="18dp"
                 android:padding="3dp"
-                android:imeOptions="actionDone" />
+                 />
 
             <Button
                 android:layout_width="wrap_content"
