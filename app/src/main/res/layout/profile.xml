@@ -111,6 +111,8 @@
                     android:drawableLeft="@drawable/user"
                     android:textSize="22dp"
                     android:padding="3dp"
+                    android:singleLine="true"
+                    android:nextFocusDown="@+id/btnChangeName"
                     android:imeOptions="actionDone" />
 
                 <Button
@@ -185,6 +187,8 @@
                     android:drawableLeft="@drawable/gn"
                     android:textSize="22dp"
                     android:padding="3dp"
+                    android:singleLine="true"
+                    android:nextFocusDown="@+id/btnReg"
                     android:imeOptions="actionDone" />
 
                 <Button

@@ -74,36 +74,6 @@ public class MainActivity extends Activity {
             }
         });
 
-        // reklama
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor c = db.query("mc_table", null, null, null, null, null, null);
-        String u_id = "0";
-        if (c.moveToFirst()) {
-            int u_idColIndex = c.getColumnIndex("u_id");
-            u_id = c.getString(u_idColIndex);
-        }
-        new checkReklama().execute(u_id);
-        /*reklamaDialog = new BottomDialog.Builder(this)
-                .setTitle("Рекламный заголовок!")
-                .setContent("Текст рекламного объявления.")
-                .setIcon(R.drawable.ic_launcher)
-                .setCancelable(true)
-                .setNegativeText("Закрыть")
-                *//*.onNegative(new BottomDialog.ButtonCallback() {
-                    @Override
-                    public void onClick(BottomDialog dialog) {
-                        Log.d("BottomDialogs", "Do something!");
-                    })*//*
-                .setPositiveText("Перейти")
-                .onPositive(new BottomDialog.ButtonCallback() {
-                    @Override
-                    public void onClick(BottomDialog dialog) {
-                        Log.d("BottomDialogs", "Do something!");
-                    }
-                }).show();*/
-
-
-
 
 
         Bundle extras = getIntent().getExtras();
@@ -135,6 +105,17 @@ public class MainActivity extends Activity {
                     }
                 }
             }
+        }
+        else{
+            // reklama
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            Cursor c = db.query("mc_table", null, null, null, null, null, null);
+            String u_id = "0";
+            if (c.moveToFirst()) {
+                int u_idColIndex = c.getColumnIndex("u_id");
+                u_id = c.getString(u_idColIndex);
+            }
+            new checkReklama().execute(u_id);
         }
 
 
@@ -290,6 +271,7 @@ public class MainActivity extends Activity {
                     String title = send_json.getString("title");
                     String icon = send_json.getString("icon");
                     String date = send_json.getString("date");
+                    String url = send_json.getString("url");
                     int view = send_json.getInt("view");
                     int id = send_json.getInt("id");
                     reklama.id = id;
@@ -298,6 +280,7 @@ public class MainActivity extends Activity {
                     reklama.msg = message;
                     reklama.icon = icon;
                     reklama.view = view;
+                    reklama.url = url;
 
                 } else {
                     Log.d(LOG_TAG, "success == " + success);
@@ -343,11 +326,6 @@ public class MainActivity extends Activity {
                             public void onClick(BottomDialog dialog) {
                                 Log.d(LOG_TAG, "reklama.url = "+reklama.url);
                                 onLinkBtn(reklama.url);
-                                /*Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-                                browserIntent.setData(Uri.parse(reklama.url));
-                                if(browserIntent.resolveActivity(getPackageManager())!=null) {
-                                    startActivity(browserIntent);
-                                }*/
                             }
                         }).show();
             }
