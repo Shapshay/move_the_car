@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -244,7 +248,6 @@ public class MainActivity extends Activity {
      **/
     class checkReklama extends AsyncTask<String, String, Reklama> {
 
-
         /**
          * Проверка наличия объявления
          **/
@@ -299,8 +302,8 @@ public class MainActivity extends Activity {
          **/
         protected void onPostExecute(final Reklama reklama) {
             if(reklama.view!=0) {
-                /*
-                URL newurl = null;
+
+                /*URL newurl = null;
                 Bitmap mIcon_val = null;
 
                 try {
@@ -308,26 +311,72 @@ public class MainActivity extends Activity {
                     mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
-                    mIcon_val = R.drawable.ic_launcher;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+                /*try {
+                    new Thread(){
+                        @Override
+                        public void run() {
+                            HttpURLConnection connection = null;
+                            try {
+                                connection = (HttpURLConnection)new URL(reklama.icon) .openConnection();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            connection.setRequestProperty("User-agent","Mozilla/4.0");
+                            connection.setDoInput(true);
+                            try {
+                                connection.connect();
+                                InputStream input = connection.getInputStream();
+                                checkReklama.bitmap = BitmapFactory.decodeStream(input);
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }.start();
+
+
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }*/
-
-                reklamaDialog = new BottomDialog.Builder(MainActivity.this)
-                        .setTitle(reklama.title)
-                        .setContent(reklama.msg)
-                        .setIcon(R.drawable.ic_launcher)
-                        .setCancelable(true)
-                        .setNegativeText("Закрыть")
-                        .setPositiveText("Перейти")
-                        .onPositive(new BottomDialog.ButtonCallback() {
-                            @Override
-                            public void onClick(BottomDialog dialog) {
-                                Log.d(LOG_TAG, "reklama.url = "+reklama.url);
-                                onLinkBtn(reklama.url);
-                            }
-                        }).show();
+                //Drawable icon = new BitmapDrawable(getResources(), mIcon_val);
+                Drawable icon = null;
+                if(icon==null){
+                    reklamaDialog = new BottomDialog.Builder(MainActivity.this)
+                            .setTitle(reklama.title)
+                            .setContent(reklama.msg)
+                            .setIcon(R.drawable.ic_launcher)
+                            .setCancelable(true)
+                            .setNegativeText("Закрыть")
+                            .setPositiveText("Перейти")
+                            .onPositive(new BottomDialog.ButtonCallback() {
+                                @Override
+                                public void onClick(BottomDialog dialog) {
+                                    Log.d(LOG_TAG, "reklama.url = "+reklama.url);
+                                    onLinkBtn(reklama.url);
+                                }
+                            }).show();
+                }
+                else{
+                    reklamaDialog = new BottomDialog.Builder(MainActivity.this)
+                            .setTitle(reklama.title)
+                            .setContent(reklama.msg)
+                            .setIcon(icon)
+                            .setCancelable(true)
+                            .setNegativeText("Закрыть")
+                            .setPositiveText("Перейти")
+                            .onPositive(new BottomDialog.ButtonCallback() {
+                                @Override
+                                public void onClick(BottomDialog dialog) {
+                                    Log.d(LOG_TAG, "reklama.url = "+reklama.url);
+                                    onLinkBtn(reklama.url);
+                                }
+                            }).show();
+                }
             }
         }
     }
@@ -339,6 +388,31 @@ public class MainActivity extends Activity {
             startActivity(browserIntent);
         }
     }
+
+    /*public static Drawable LoadImageFromWebOperations(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+            Log.d("myLog", "Drawable = Yes");
+            return d;
+
+        } catch (Exception e) {
+            return null;
+        }
+    }*/
+
+    /*Bitmap drawable_from_url(String url) throws java.net.MalformedURLException, java.io.IOException {
+        Bitmap x;
+
+        HttpURLConnection connection = (HttpURLConnection)new URL(url) .openConnection();
+        connection.setRequestProperty("User-agent","Mozilla/4.0");
+
+        connection.connect();
+        InputStream input = connection.getInputStream();
+
+        x = BitmapFactory.decodeStream(input);
+        return x;
+    }*/
 
 
 }

@@ -1,19 +1,34 @@
 package com.skiv.akk.movethecar;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MsgActivity extends Activity {
     DBHelper dbHelper;
     final String LOG_TAG = "myLog";
+    private ProgressDialog pDialog;
+
+    JSONParser jsonParser = new JSONParser();
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_MESSAGE = "message";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +65,7 @@ public class MsgActivity extends Activity {
         db.update("mc_msg",
                 values,
                 "push_id = ?", new String[]{Integer.toString(push_id)});
+        new sendAnswer().execute(Integer.toString(push_id));
     }
 
     public void onCheckMsg(View view) {
@@ -61,5 +77,74 @@ public class MsgActivity extends Activity {
     public void onMenuBtnClick(View view) {
         Intent intent = new Intent(MsgActivity.this, MenuActivity.class);
         startActivity(intent);
+    }
+
+
+    /**
+     * Фоновый Async Task отправки подтверждения прочтения
+     **/
+    class sendAnswer extends AsyncTask<String, String, String> {
+
+        /**
+         * Перед отправкой в фоновом потоке показываем прогресс диалог
+         **/
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                pDialog = new ProgressDialog(MsgActivity.this);
+                pDialog.setMessage("Отправка...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
+            }catch (Exception e){
+
+            }
+        }
+
+        /**
+         * Отправка сообщения
+         **/
+        protected String doInBackground(String[] args) {
+            String push_id = args[0];
+            String url_answer = "http://java.coap.kz/mc/answer_send.php";
+
+            // Заполняем параметры
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("push_id", push_id));
+            Log.d(LOG_TAG, "Start json");
+            // получаем JSON объект
+            JSONObject send_json = jsonParser.makeHttpRequest(url_answer, "POST", params);
+            Log.d(LOG_TAG, "End json");
+            Log.d(LOG_TAG, send_json.toString());
+
+            try {
+                int success = send_json.getInt(TAG_SUCCESS);
+                Log.d(LOG_TAG, "TAG_SUCCESS = " + success);
+                String message = send_json.getString(TAG_MESSAGE);
+                Log.d(LOG_TAG, "TAG_MESSAGE = " + message);
+                if (success == 1) {
+                    Log.d(LOG_TAG, "success == 1");
+                } else {
+                    Log.d(LOG_TAG, "success == " + success);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        /**
+         * После оконачния скрываем прогресс диалог
+         **/
+        protected void onPostExecute(String file_url) {
+            try {
+                pDialog.dismiss();
+            }catch (Exception e){
+
+            }
+        }
     }
 }
