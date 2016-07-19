@@ -312,7 +312,7 @@ public class MainActivity extends Activity {
         }
 
         /**
-         * После оконачния скрываем прогресс диалог
+         * После оконачния оказываем диалог рекламы
          **/
         protected void onPostExecute(final Reklama reklama) {
             if(reklama.view!=0) {
