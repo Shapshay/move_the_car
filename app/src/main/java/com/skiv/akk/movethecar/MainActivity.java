@@ -16,7 +16,9 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.github.javiersantos.bottomdialogs.BottomDialog;
@@ -78,6 +80,14 @@ public class MainActivity extends Activity {
             }
         });
 
+        findViewById(android.R.id.content).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideSoftKeyboard(MainActivity.this);
+                return false;
+            }
+        });
+
 
 
         Bundle extras = getIntent().getExtras();
@@ -124,6 +134,11 @@ public class MainActivity extends Activity {
 
 
 
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     public void onSendGn(View view) {

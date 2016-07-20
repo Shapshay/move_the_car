@@ -10,7 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -112,6 +114,16 @@ public class RegActivity extends Activity {
             }
         });
 
+        //gnTxt.requestFocus();
+
+        findViewById(android.R.id.content).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideSoftKeyboard(RegActivity.this);
+                return false;
+            }
+        });
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String messageExtras = getIntent().getExtras().getString("message");
@@ -139,6 +151,11 @@ public class RegActivity extends Activity {
             }
 
         }
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
 

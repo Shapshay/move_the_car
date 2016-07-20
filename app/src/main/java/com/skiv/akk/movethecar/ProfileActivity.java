@@ -10,7 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -84,9 +86,20 @@ public class ProfileActivity extends Activity {
         LayoutParams listLP = (LayoutParams) lvMain.getLayoutParams();
         listLP.height = gnAdapter.getCount()*100;//like int  200
         lvMain.setLayoutParams(listLP);
+
+        findViewById(android.R.id.content).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideSoftKeyboard(ProfileActivity.this);
+                return false;
+            }
+        });
     }
 
-
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
 
     // изменяем имя пользователя
     public void onSendName(View view) {
